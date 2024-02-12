@@ -26,7 +26,15 @@ const router = createRouter({
         },
       ], // /teams/t1
     },
-    { path: '/users', components: { default: UsersList, footer: UsersFooter } },
+    {
+      path: '/users',
+      components: { default: UsersList, footer: UsersFooter },
+      beforeEnter(to, from, next) {
+        console.log('users beforeEnter');
+        console.log(from, to);
+        next();
+      },
+    },
     // { path: '/:notFound(.*)', redirect: '/teams' },
     { path: '/:notFound(.*)', component: NotFound },
   ],
@@ -42,11 +50,12 @@ const router = createRouter({
 router.beforeEach(function (to, from, next) {
   console.log('Global beforeEach');
   console.log(to, from);
-  if (to.name === 'team-members') {
-    next();
-  } else {
-    next({ name: 'team-members', params: { teamId: 't2' } });
-  }
+  // if (to.name === 'team-members') {
+  //   next();
+  // } else {
+  //   next({ name: 'team-members', params: { teamId: 't2' } });
+  // }
+  next();
 });
 
 const app = createApp(App);
